@@ -1,0 +1,78 @@
+# VergeOS Small size 3 Nodes with 30TB Reference Architecture
+
+## Overview
+This is a reference solution for a 3-Nodes VergeOS system with 20TB of storage capacities. The document provides guidance and suggested best practices by a VergeOS engineers performing an initial system design for the given configuration, with a goal of scalability for future expansion.
+
+**Use Cases:**
+
+- Running VM environments with increased uptime
+- Small production in a clustered environment
+- Enhanced storage and network redundancy
+
+
+### Hardware Recommendations
+Small size deployment can be built with a variety of options for VergeOS hardware. Many opt for newer-generation enterprise servers (e.g., Dell, HP, Supermicro) due to it's performance and cost-effectiveness.
+
+**Key Considerations:**
+
+- **RAID Configuration:** VergeOS requires direct access to disks, so if using a RAID controller, ensure it supports JBOD/IT mode or use an HBA instead.
+- **IPMI Requirements:** VergeOS recommends IPMI, especially for use-case with some NVIDIA GPUs or GPU passthrough setups that may disable console access, so IPMI can be beneficial for managing these configurations.
+
+---
+
+## System Configuration:**
+
+Compute Resources
+Component	Specification	Justification
+CPU	2× Intel Xeon Gold 6348 (28C/56T each)	56 physical cores per node provides sufficient headroom for workload distribution across 3 nodes
+Memory	512GB DDR4-3200 ECC (16× 32GB DIMMs)	High-capacity memory configuration 
+Memory Layout	16 DIMMs populated across all channels	Optimizes memory bandwidth and performance
+
+ 
+Storage Configuration
+Component	Specification	Quantity	Total Capacity	Purpose
+Metadata Storage (Tier 0)	800GB NVMe SSD (U.2/PCIe 4.0)	2	1.6TB	Local Flash Disk for VergeOS with Redundancy
+Capacity Storage 
+(Tier 3)	7.68TB NVMe SSD (U.2/PCIe 4.0)	2	15.36TB	Expansion capacity for future growth
+
+
+
+**Network Configuration:**  
+
+Network Configuration
+Component	Specification	Quantity	Purpose
+Core Network	Dual-port 10/25GbE 	1	Inter-node communication
+DMZ Network	10/25GbE	1	VM traffic
+Management Network	Dual-port 1/10GbE	1	VergeOS management
+Out-of-Band Management	1GbE RJ45 (Dedicated)	1	Remote management (iDRAC/iLO/IPMI)
+
+
+
+---
+
+**GPU Support:**  
+
+For users who need enhanced graphics capabilities, VergeOS supports both GPU Passthrough and NVIDIA vGPU. These options allow virtual machines to utilize either dedicated or shared GPU resources:
+
+   - **GPU Passthrough:** Provides a direct GPU connection to a VM for high-performance applications. See the [PCI Passthrough Product Guide](/product-guide/system/generic-pci-passthrough).
+   - **NVIDIA vGPU:** Allows shared GPU access for multiple VMs, enabling efficient use of GPU resources for less-intensive tasks. Refer to the [NVIDIA vGPU Product Guide](/product-guide/system/nvidia-vgpu).
+
+**Use Cases:**
+
+- Hosting multi-tiered VM environments
+- **Redundant, high-capacity NAS setup** for centralized, reliable file storage
+- Serving as a home network router and firewall, providing security and centralized management for all connected devices
+- High-performance VM applications with dedicated GPU resources or shared vGPU for scalable graphics processing
+
+---
+
+## Useful Links
+
+- [VM Recipes](/product-guide/automation/vm-recipes)
+- [Cloud Snapshots](/product-guide/backup-dr/cloud-snapshot-restore)
+- [vSAN Preferred Tiers](/product-guide/storage/preferred-tiers)
+- [VPN](/product-guide/vpn/vpn-overview)
+- [Network Overview](/product-guide/networks/network-overview)
+- [Licensing](/product-guide/system/licensing-and-updates)
+
+Each of these configurations is adaptable to specific homelab needs, allowing flexibility based on available hardware and individual use cases.
