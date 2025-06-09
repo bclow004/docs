@@ -1,0 +1,30 @@
+<strong>Purpose: This is a reference solution for a 3-Nodes VergeOS system with 30TB of storage capacities.</strong> 
+The document provides guidance and suggested best practices by a VergeOS engineers performing an initial system design for the given configuration, with a goal of scalability for future expansion. 
+Please note that this document covers typical case scenario that may not apply to your specific systems and scenarios. Please ensure your architectural design and customization are appropriate to your needs. 
+
+<b>Hardware Specifications</b>
+This section discuss the Hardware Recommendations on a Per Node Specifications.
+
+Compute Resources
+Component	Specification	Justification
+CPU	2× Intel Xeon Gold 6348 (28C/56T each)	56 physical cores per node provides sufficient headroom for workload distribution across 3 nodes
+Memory	512GB DDR4-3200 ECC (16× 32GB DIMMs)	High-capacity memory configuration 
+Memory Layout	16 DIMMs populated across all channels	Optimizes memory bandwidth and performance
+
+ 
+Storage Configuration
+Component	Specification	Quantity	Total Capacity	Purpose
+Metadata Storage (Tier 0)	800GB NVMe SSD (U.2/PCIe 4.0)	2	1.6TB	Local Flash Disk for VergeOS with Redundancy
+Capacity Storage 
+(Tier 3)	7.68TB NVMe SSD (U.2/PCIe 4.0)	2	15.36TB	Expansion capacity for future growth
+
+Network Configuration
+Component	Specification	Quantity	Purpose
+Core Network	Dual-port 10/25GbE 	1	Inter-node communication
+DMZ Network	10/25GbE	1	VM traffic
+Management Network	Dual-port 1/10GbE	1	VergeOS management
+Out-of-Band Management	1GbE RJ45 (Dedicated)	1	Remote management (iDRAC/iLO/IPMI)
+
+
+This section shows the Architectural Diagram of the reference architecture.
+  
