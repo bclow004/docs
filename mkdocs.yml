@@ -146,6 +146,7 @@ nav:
       - Cloud Providers: reference-architecture/csp.md
       - Life / Data Science: reference-architecture/data-science.md
       - Homelab: reference-architecture/homelab.md
+      - Cisco HX240c M5 12-Node / 2-Cluster: reference-architecture/cisco-hx240-12node.md
   - Knowledge Base:
     - knowledge-base/index.md
   - Product Guide:
