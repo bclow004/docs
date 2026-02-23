@@ -266,6 +266,7 @@ nav:
         - Sync Back: product-guide/backup-dr/sync-back.md
         - Manual Sync: product-guide/backup-dr/manual-site-syncs.md
         - Repair Server: product-guide/backup-dr/repair-server.md
+        - Troubleshooting: product-guide/backup-dr/troubleshooting-site-syncs.md
       - Snapshots:
         - Overview: product-guide/backup-dr/snapshots-overview.md
         - Profiles: product-guide/backup-dr/snapshot-profiles.md
