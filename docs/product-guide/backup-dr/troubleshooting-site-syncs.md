@@ -25,8 +25,25 @@ Key fields to check:
 | `sent net` | Actual bytes transferred (post-compression) |
 | `updated` | Number of files updated on the destination |
 
-- **`sent [0B]` with a large `scanned` value** is normal when no data has changed since the last sync.
+- **`sent [0B]` with a large `scanned` value** is normal and correct when no data has changed since the last sync. The system scanned all blocks but found nothing new to transfer. Confirm the snapshot exists on the remote by checking that the **Remote Expiration** field is populated on the snapshot queue entry.
 - **A sync entry that starts but never completes** indicates the connection was interrupted mid-transfer.
+
+---
+
+## Understanding a Successful Sync That Sent 0 Bytes
+
+A sync job showing **Sent: 0B** with a **Complete** status is correct and healthy behavior, not a failure.
+
+VergeIO sync performs a block-level deduplication check: it scans the full snapshot data on the sending side (reflected in the **Scanned** value) and compares each block against what already exists on the destination. If a prior sync already transferred all the data — or if nothing changed between snapshots — there is nothing new to send, and the sync completes immediately with `Sent: 0B`.
+
+**How to confirm the sync genuinely succeeded:**
+
+- The **Status** column shows **Complete** (not Error)
+- The **Remote Expiration** field on the snapshot queue entry is populated with a future date, confirming the snapshot is present on the remote system
+- The **Remote Snapshots** count on the outgoing sync dashboard reflects the expected number of snapshots
+
+!!! warning "When 0B sent may indicate a problem"
+    If **Sent: 0B** appears alongside a **blank Remote Expiration**, an **Error** status, or a **Retry Count** that keeps incrementing, the sync did not actually complete successfully. In those cases, refer to the failure causes below.
 
 ---
 
